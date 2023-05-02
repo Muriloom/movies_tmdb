@@ -50,37 +50,36 @@ class RegistrarActivity : AppCompatActivity() {
             val email = campoemail.text.toString()
             val senha = camposenha.text.toString()
 
-            if (email.isEmpty() || !email.contains("@")) {
-                Toast.makeText(this, "Por favor, insira um E-Mail válido", Toast.LENGTH_SHORT)
-                    .show()
+            if (validaEmail(email)) {
+               showToast("Por favor, insira um E-Mail válido")
             }
-            if (senha.isEmpty()) {
-                Toast.makeText(this, "Por favor, insira uma senha.", Toast.LENGTH_SHORT).show()
+            if (validaSenha(senha)) {
+               showToast("Por favor, insira uma senha.")
             }
-
-            if (email.isEmpty() && senha.isEmpty()) {
-                Toast.makeText(this, "Por favor, insira um e-mail e uma senha", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
             auth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(
-                            baseContext, "Conta Criada",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast("Conta Criada")
                         val intent = Intent(applicationContext, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(
-                            baseContext, "Falha na autenticação",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            showToast("Falha na autenticação")
                     }
                 }
         }
         return botaoregistrar
+    }
+
+    private fun validaEmail(email: String): Boolean{
+        return email.isNotEmpty() && email.contains("@")
+    }
+
+    private fun validaSenha(senha: String): Boolean {
+        return senha.isEmpty()
+    }
+
+    private fun showToast(message: String){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
