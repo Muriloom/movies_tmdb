@@ -64,7 +64,7 @@ class RegistrarActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     } else {
-                            showToast("Falha na autenticação")
+                            showToast("Falha na autenticação.")
                     }
                 }
         }
